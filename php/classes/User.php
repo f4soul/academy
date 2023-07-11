@@ -7,7 +7,7 @@ class User
 	private $email;
 	private $id;
 
-	function __construct($id, $name, $lastname, $email)
+	public function __construct($id, $name, $lastname, $email)
 	{
 		$this->id = $id;
 		$this->name = $name;
@@ -15,28 +15,28 @@ class User
 		$this->email = $email;
 	}
 
-	function getId()
+	public function getId()
 	{
 		return $this->id;
 	}
 
-	function getName()
+	public function getName()
 	{
 		return $this->name;
 	}
 
-	function getLastname()
+	public function getLastname()
 	{
 		return $this->lastname;
 	}
 
-	function getEmail()
+	public function getEmail()
 	{
 		return $this->email;
 	}
 
-	//Статический метод добавления пользователя в базу данных
-	static function addUser($name, $lastname, $email, $pass)
+	// Статический метод добавления (регистрации) пользователя
+	public static function addUser($name, $lastname, $email, $pass)
 	{
 		global $mysqli;
 
@@ -53,10 +53,28 @@ class User
 			return json_encode(["result" => "success"]);
 		}
 	}
-	//Статический метод авторизации пользователя
-	static function authUser($email, $pass)
+
+	// Статический метод авторизации пользователя
+	public static function authUser($email, $pass)
 	{
 		global $mysqli;
-		return "User auth";
+
+		$result = $mysqli->query("SELECT * FROM `user` WHERE `email`='$email'");
+		$user = $result->fetch_assoc();
+
+		if ($user) {
+			$password_hash = $user["pass"];
+			if (password_verify($pass, $password_hash)) {
+				$_SESSION["id"] = $user["id"];
+				$_SESSION["name"] = $user["name"];
+				$_SESSION["lastname"] = $user["lastname"];
+				$_SESSION["email"] = $user["email"];
+				return json_encode(["result" => "success"]);
+			} else {
+				return json_encode(["result" => "exist"]);
+			}
+		} else {
+			return json_encode(["result" => "exist"]);
+		}
 	}
 }
