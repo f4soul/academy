@@ -16,6 +16,7 @@
 
 	<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 	<!--================ Start Header Menu Area =================-->
 	<header class="header_area">
@@ -62,7 +63,7 @@
 						<ul class="nav-shop">
 							<li class="nav-item"><button><i class="ti-search"></i></button></li>
 							<li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-							<li class="nav-item"><a class="button button-header" href="login.html">Вход в кабинет</a></li>
+							<li class="nav-item"><a class="button button-header" href="/auth">Вход в кабинет</a></li>
 						</ul>
 					</div>
 				</div>
@@ -71,7 +72,7 @@
 	</header>
 	<!--================ End Header Menu Area =================-->
 
-<?php echo $content; ?>
+	<?php echo $content; ?>
 
 	<!--================ Start footer Area  =================-->
 	<footer class="footer">
