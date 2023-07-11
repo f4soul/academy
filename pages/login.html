@@ -3,12 +3,12 @@
   <div class="container h-100">
     <div class="blog-banner">
       <div class="text-center">
-        <h1>Login / Register</h1>
+        <h1>Вход/Регистрация</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
             <li class="breadcrumb-item active" aria-current="page">
-              Login/Register
+              Вход/Регистрация
             </li>
           </ol>
         </nav>
@@ -25,58 +25,53 @@
       <div class="col-lg-6">
         <div class="login_box_img">
           <div class="hover">
-            <h4>New to our website?</h4>
-            <p>
-              There are advances being made in science and technology everyday,
-              and a good example of this is the
-            </p>
-            <a class="button button-account" href="register.html"
-              >Create an Account</a
+            <h4>Впервые на нашем сайте?</h4>
+            <a class="button button-account" href="/register"
+              >Создать аккаунт</a
             >
           </div>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="login_form_inner">
-          <h3>Log in to enter</h3>
-          <form class="row login_form" action="#/" id="contactForm">
+          <h3>Авторизуйтесь, чтобы войти</h3>
+          <form class="row login_form" onsubmit="sendForm(this); return false;">
             <div class="col-md-12 form-group">
               <input
                 type="text"
                 class="form-control"
-                id="name"
-                name="name"
-                placeholder="Username"
+                name="email"
+                placeholder="Email"
                 onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Username'"
+                onblur="this.placeholder = 'Email'"
+                required
+                autocomplete="email"
               />
             </div>
             <div class="col-md-12 form-group">
               <input
-                type="text"
+                type="password"
                 class="form-control"
-                id="name"
-                name="name"
-                placeholder="Password"
+                name="pass"
+                placeholder="Пароль"
                 onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Password'"
+                onblur="this.placeholder = 'Пароль'"
+                required
+                autocomplete="current-password"
               />
             </div>
             <div class="col-md-12 form-group">
               <div class="creat_account">
                 <input type="checkbox" id="f-option2" name="selector" />
-                <label for="f-option2">Keep me logged in</label>
+                <label for="f-option2">Оставаться в системе</label>
               </div>
             </div>
+            <p id="info" style="color: red"></p>
             <div class="col-md-12 form-group">
-              <button
-                type="submit"
-                value="submit"
-                class="button button-login w-100"
-              >
-                Log In
+              <button type="submit" class="button button-login w-100">
+                Войти
               </button>
-              <a href="#">Forgot Password?</a>
+              <a href="#">Забыли пароль?</a>
             </div>
           </form>
         </div>
@@ -85,3 +80,46 @@
   </div>
 </section>
 <!--================End Login Box Area =================-->
+<div
+  class="modal fade"
+  tabindex="-1"
+  aria-hidden="true"
+  id="modalLogin"
+  data-backdrop="static"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Вы успешно выполнили вход в систему!</h5>
+      </div>
+      <div class="modal-body">
+        <p>
+          Через 3 секунды вы будете перенаправлены на страницу личного кабинета.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function sendForm(form) {
+    let formData = new FormData(form);
+
+    let response = await fetch("authUser", {
+      method: "POST",
+      body: formData,
+    });
+
+    let res = await response.json();
+
+    if (res.result == "success") {
+      $("#modalLogin").modal("show");
+      setTimeout(() => {
+        location.href = "/users/profile";
+      }, 3000);
+    } else if (res.result == "exist") {
+      info.innerText =
+        "Пользователя с такой комбинацией логин/пароль не найден, пройдите регистрацию";
+    }
+  }
+</script>

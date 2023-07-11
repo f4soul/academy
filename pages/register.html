@@ -1,4 +1,4 @@
-<!-- ================ Start banner area ================= -->
+<!-- ================ start banner area ================= -->
 <section class="blog-banner-area" id="category">
   <div class="container h-100">
     <div class="blog-banner">
@@ -6,7 +6,7 @@
         <h1>Регистрация</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
             <li class="breadcrumb-item active" aria-current="page">
               Регистрация
             </li>
@@ -16,7 +16,7 @@
     </div>
   </div>
 </section>
-<!-- ================ End banner area ================= -->
+<!-- ================ end banner area ================= -->
 
 <!--================Login Box Area =================-->
 <section class="login_box_area section-margin">
@@ -27,7 +27,7 @@
           <div class="hover">
             <h4>Вы уже зарегистрированы?</h4>
             <p>
-              Тогда войдите под своей учетной записью и получите выгодное
+              Тогда войдите под своими учетными данными и получите выгодное
               предложение
             </p>
             <a class="button button-account" href="/auth">Вход в кабинет</a>
@@ -48,7 +48,7 @@
                 onblur="this.placeholder = 'Имя'"
                 required
                 autocomplete="name"
-                minlength="2"
+                minlength="4"
               />
             </div>
             <div class="col-md-12 form-group">
@@ -112,7 +112,6 @@
 <!--================End Login Box Area =================-->
 
 <div
-  class="modal"
   class="modal fade"
   tabindex="-1"
   aria-hidden="true"
@@ -125,7 +124,9 @@
         <h5 class="modal-title">Вы успешно зарегистрировались!</h5>
       </div>
       <div class="modal-body">
-        <p>Через 3 секунды вы будете перенаправлены на страницу авторизации</p>
+        <p>
+          Через 3 секунды вы будете перенаправлены на страницу авторизации.
+        </p>
       </div>
     </div>
   </div>
@@ -147,8 +148,8 @@
       setTimeout(() => {
         location.href = "auth";
       }, 3000);
-    } else if (result == "exist") {
-      info.innerText = "Такой пользователь уже существует!";
+    } else if (res.result == "exist") {
+      info.innerText = "Такой пользователь уже существует";
     }
   }
 </script>
