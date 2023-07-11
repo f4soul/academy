@@ -7,7 +7,7 @@ class User
 	private $email;
 	private $id;
 
-	public function __construct($id, $name, $lastname, $email)
+	function __construct($id, $name, $lastname, $email)
 	{
 		$this->id = $id;
 		$this->name = $name;
@@ -15,22 +15,19 @@ class User
 		$this->email = $email;
 	}
 
-	public function getId()
+	function getId()
 	{
 		return $this->id;
 	}
-
-	public function getName()
+	function getName()
 	{
 		return $this->name;
 	}
-
-	public function getLastname()
+	function getLastname()
 	{
 		return $this->lastname;
 	}
-
-	public function getEmail()
+	function getEmail()
 	{
 		return $this->email;
 	}
