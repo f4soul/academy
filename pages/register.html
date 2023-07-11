@@ -1,0 +1,154 @@
+<!-- ================ Start banner area ================= -->
+<section class="blog-banner-area" id="category">
+  <div class="container h-100">
+    <div class="blog-banner">
+      <div class="text-center">
+        <h1>Регистрация</h1>
+        <nav aria-label="breadcrumb" class="banner-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Регистрация
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ End banner area ================= -->
+
+<!--================Login Box Area =================-->
+<section class="login_box_area section-margin">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="login_box_img">
+          <div class="hover">
+            <h4>Вы уже зарегистрированы?</h4>
+            <p>
+              Тогда войдите под своей учетной записью и получите выгодное
+              предложение
+            </p>
+            <a class="button button-account" href="/auth">Вход в кабинет</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="login_form_inner register_form_inner">
+          <h3>Регистрация</h3>
+          <form class="row login_form" onsubmit="sendForm(this); return false;">
+            <div class="col-md-12 form-group">
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                placeholder="Имя"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Имя'"
+                required
+                autocomplete="name"
+                minlength="2"
+              />
+            </div>
+            <div class="col-md-12 form-group">
+              <input
+                type="text"
+                class="form-control"
+                name="lastname"
+                placeholder="Фамилия"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Фамилия'"
+                required
+                autocomplete="lastname"
+                minlength="3"
+              />
+            </div>
+            <div class="col-md-12 form-group">
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                placeholder="Email"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Email'"
+                required
+                autocomplete="email"
+              />
+            </div>
+            <div class="col-md-12 form-group">
+              <input
+                type="password"
+                class="form-control"
+                name="pass"
+                placeholder="Пароль"
+                onfocus="this.placeholder = ''"
+                onblur="this.placeholder = 'Пароль'"
+                required
+                autocomplete="new-password"
+              />
+            </div>
+
+            <div class="col-md-12 form-group">
+              <div class="creat_account">
+                <input type="checkbox" id="f-option2" required />
+                <label for="f-option2"
+                  >Согласие на обработку персональных данных</label
+                >
+              </div>
+            </div>
+            <p id="info" style="color: red"></p>
+            <div class="col-md-12 form-group">
+              <button type="submit" class="button button-register w-100">
+                Зарегистрироваться
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--================End Login Box Area =================-->
+
+<div
+  class="modal"
+  class="modal fade"
+  tabindex="-1"
+  aria-hidden="true"
+  id="modalRegister"
+  data-backdrop="static"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Вы успешно зарегистрировались!</h5>
+      </div>
+      <div class="modal-body">
+        <p>Через 3 секунды вы будете перенаправлены на страницу авторизации</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function sendForm(form) {
+    let formData = new FormData(form);
+
+    let response = await fetch("addUser", {
+      method: "POST",
+      body: formData,
+    });
+
+    let res = await response.json();
+
+    if (res.result == "success") {
+      $("#modalRegister").modal("show");
+      setTimeout(() => {
+        location.href = "auth";
+      }, 3000);
+    } else if (result == "exist") {
+      info.innerText = "Такой пользователь уже существует!";
+    }
+  }
+</script>
