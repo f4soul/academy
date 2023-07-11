@@ -33,7 +33,7 @@ class User
 	}
 
 	// Статический метод добавления (регистрации) пользователя
-	public static function addUser($name, $lastname, $email, $pass)
+	static function addUser($name, $lastname, $email, $pass)
 	{
 		global $mysqli;
 
@@ -52,7 +52,7 @@ class User
 	}
 
 	// Статический метод авторизации пользователя
-	public static function authUser($email, $pass)
+	static function authUser($email, $pass)
 	{
 		global $mysqli;
 
