@@ -18,6 +18,9 @@
         font-size: 1.2rem;
         font-weight: bold;
       }
+      /* .nav-link.active {
+				background-color: crimson;
+			} */
     </style>
   </head>
   <body>
@@ -79,10 +82,12 @@
                   />
                 </div>
                 <div class="col-md-8">
-                  <p class="profile-data">ID: <span>2</span></p>
-                  <p class="profile-data">E-mail: <span>ivan@ya.ru</span></p>
+                  <p class="profile-data">ID: <span id="userId"></span></p>
                   <p class="profile-data">
-                    Фамилия и имя: <span>Иванов Иван</span>
+                    E-mail: <span id="userMail"></span>
+                  </p>
+                  <p class="profile-data">
+                    Фамилия и имя: <span id="userName"></span>
                   </p>
                 </div>
               </div>
@@ -158,6 +163,7 @@
                           <p>Как насчет идеи с рыбалкой?</p>
                         </div>
                       </div>
+
                       <div class="row mb-3 shadow-sm">
                         <div class="col-3">
                           <img
@@ -187,7 +193,24 @@
                   </div>
                 </div>
               </div>
-              <div class="row mt-5">Вывод списка друзей</div>
+              <h3 class="text-center p-3">Список друзей</h3>
+              <div class="row mt-5">
+                <div class="col-12">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Email</th>
+                      </tr>
+                    </thead>
+                    <tbody id="userListTable">
+                      <!-- Здесь формируем список пользователей <tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
             <div
               class="tab-pane fade"
@@ -195,13 +218,17 @@
               role="tabpanel"
               aria-labelledby="v-pills-settings-tab"
             >
-              <div class="col-12 mb-5">
-                <button class="btn btn-success btn-block">Изменить имя</button>
-              </div>
-              <div class="col-12">
-                <button class="btn btn-success btn-block">
-                  Изменить фамилию
-                </button>
+              <div class="row p-5">
+                <div class="col-12 mb-5">
+                  <button class="btn btn-success btn-block">
+                    Изменить имя
+                  </button>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-success btn-block">
+                    Изменить фамилию
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -223,6 +250,15 @@
       let pathname = location.pathname.split("/")[2];
       let navLinks = document.querySelectorAll(".nav-link");
 
+      async function getUser() {
+        let response = await fetch("/getUser");
+        return await response.json();
+      }
+      async function getUsers() {
+        let response = await fetch("/getUsers");
+        return await response.json();
+      }
+
       addEventListener("popstate", (event) => {
         let path = location.pathname.split("/")[2];
         if (path == "profile") {
@@ -235,8 +271,30 @@
       });
 
       if (pathname == "profile") {
+        getUser().then((user) => {
+          userId.innerText = `${user.id}`;
+          userMail.innerText = `${user.email}`;
+          userName.innerText = `${user.lastname} ${user.name}`;
+        });
+
         $("#v-pills-profile").tab("show");
       } else if (pathname == "messages") {
+        getUsers().then((users) => {
+          for (let i = 0; i < users.length; i++) {
+            userListTable.insertAdjacentHTML(
+              "beforeend",
+              `
+							<tr>
+								<th scope="row">${users[i].id}</th>
+								<td>${users[i].name}</td>
+								<td>${users[i].lastname}</td>
+								<td>${users[i].email}</td>
+							</tr>
+						`
+            );
+          }
+        });
+
         $("#v-pills-messages").tab("show");
       } else if (pathname == "settings") {
         $("#v-pills-settings").tab("show");
@@ -250,6 +308,7 @@
           let page = navLinks[i]
             .getAttribute("aria-controls")
             .split("v-pills-")[1];
+          console.log(page);
           history.pushState("", "", page);
         });
       }

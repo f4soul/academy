@@ -74,4 +74,27 @@ class User
 			return json_encode(["result" => "exist"]);
 		}
 	}
+
+	//Статический метод получения данных одного пользователя
+	static function getUser($userId)
+	{
+		global $mysqli;
+
+		$result = $mysqli->query("SELECT `id`, `name`, `lastname`, `email` FROM `user` WHERE `id`='$userId'");
+		$result = $result->fetch_assoc();
+		return json_encode($result);
+	}
+
+	//Статический метод получения данных всех пользователей
+	static function getUsers()
+	{
+		global $mysqli;
+
+		$result = $mysqli->query("SELECT `id`, `name`, `lastname`, `email` FROM `user` WHERE 1");
+
+		while ($row = $result->fetch_assoc()) {
+			$users[] = $row;
+		}
+		return json_encode($users);
+	}
 }
